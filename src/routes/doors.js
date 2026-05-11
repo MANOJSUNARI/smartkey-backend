@@ -81,6 +81,25 @@ router.post('/login', auth, async (req, res) => {
   }
 });
 
+// ── Get door status for Arduino (no auth needed) ─────────────────────────────
+router.get('/status/:door_id', async (req, res) => {
+  try {
+    const result = await pool.query(
+      'SELECT is_open FROM doors WHERE id = $1',
+      [req.params.door_id]
+    );
+
+    if (!result.rows[0]) {
+      return res.status(404).json({ error: 'Door not found' });
+    }
+
+    res.json({ is_open: result.rows[0].is_open });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 // ── User requests access to a door ──────────────────────────────────────────
 router.post('/request-access', auth, async (req, res) => {
   const { door_id } = req.body;
