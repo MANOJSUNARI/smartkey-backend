@@ -150,9 +150,14 @@ router.post('/forgot-password', async (req, res) => {
     const resetLink = `${process.env.RESET_URL}?token=${token}`;
 
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
-    });
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
     await transporter.sendMail({
       from: `"Smart Key" <${process.env.EMAIL_USER}>`,
