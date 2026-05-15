@@ -3,8 +3,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const pool = require('../db');
 const auth = require('../middleware/auth');
-const nodemailer = require('nodemailer');
 const crypto = require('crypto');
+const sgMail = require('@sendgrid/mail');
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 function createToken(userId) {
   if (!process.env.JWT_SECRET) {
@@ -149,19 +151,9 @@ router.post('/forgot-password', async (req, res) => {
 
     const resetLink = `${process.env.RESET_URL}?token=${token}`;
 
-    const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
-
-    await transporter.sendMail({
-      from: `"Smart Key" <${process.env.EMAIL_USER}>`,
+    await sgMail.send({
       to: user.email,
+      from: process.env.EMAIL_USER,
       subject: 'Reset Your Smart Key Password',
       html: `
         <h2>Password Reset Request</h2>
