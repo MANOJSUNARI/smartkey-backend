@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -9,6 +10,11 @@ app.use(express.json());
 
 app.get('/api', (req, res) => {
   res.json({ message: 'API is working' });
+});
+
+// ── Serve reset password page ─────────────────────────────────────────────────
+app.get('/reset-password', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/reset-password.html'));
 });
 
 app.use('/api/auth', require('./routes/auth'));
