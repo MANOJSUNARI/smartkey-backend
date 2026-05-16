@@ -153,7 +153,10 @@ router.post('/forgot-password', async (req, res) => {
 
     await sgMail.send({
       to: user.email,
-      from: process.env.EMAIL_USER,
+      from: {
+        email: process.env.EMAIL_USER,
+        name: 'Smart Key',
+      },
       subject: 'Reset Your Smart Key Password',
       html: `
         <h2>Password Reset Request</h2>
