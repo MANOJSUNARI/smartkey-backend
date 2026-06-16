@@ -132,7 +132,8 @@ Known Limitations
 •	No automatic door ID pairing. Must be set manually in firmware
 ________________________________________
 Author
-Manoj Sunari Student ID: 230257153 York St John University Module: COM6016M Dissertation 2025/2026 Supervisor: Theocharis Kyriacou
+Manoj Sunari Student ID: 230257153 
+Supervisor: Theocharis Kyriacou
 ________________________________________
 Licence
 This project was developed for academic purposes as part of a university dissertation.
